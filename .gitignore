@@ -2,6 +2,7 @@
 /tests
 /.vscode
 /dist
+/logData
 package.json
 example.pdf
 .env
