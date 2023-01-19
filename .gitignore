@@ -1,5 +1,7 @@
 /node_modules
+/tests
+/.vscode
+/dist
 package.json
-/test_data
 example.pdf
 .env
