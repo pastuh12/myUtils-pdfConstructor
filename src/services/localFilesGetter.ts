@@ -4,7 +4,7 @@ import * as fs from 'fs/promises';
  * give array with path to files
  * @param {string} path
  */
-export const getDataPaths = async function (path) {
+export const getDataPaths = async function (path: string) {
     // TODO: add verification file paths
     try {
         return fs.readdir(path)

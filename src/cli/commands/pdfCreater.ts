@@ -1,6 +1,6 @@
 import cliCommand from './cliCommand.js';
-import { createPDF } from '../services/pdfService.js';
-import { getDataPaths } from '../services/localFilesGetter.js';
+import { createPDF } from '../../services/pdfService.js';
+import { getDataPaths } from '../../services/localFilesGetter.js';
 /**
  * decorator for cli
  */
@@ -9,11 +9,10 @@ class PdfCreater extends cliCommand {
     // TODO break commandNameAndArg into commandName and arg
     // TODO add verificator for arg and parameter
     /**
-     * constructor
-     * @param {function} action
+     * constructor 
      */
     constructor() {
-        const action = function (dataPath, cmd) {
+        const action = function (dataPath: string, cmd: ) {
             getDataPaths(dataPath).then((files) => {
                 console.log(files);
                 createPDF(files, cmd.endpath);

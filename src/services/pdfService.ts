@@ -6,7 +6,7 @@ import * as fs from 'fs';
  * @param {[string]} images
  * @param {[width, heigth]} size
  */
-export const createPDF = function (files, endPath) {
+export const createPDF = function (files: string[], endPath: string) {
     try {
         fs.access(files[0], (err) => {
             console.log(`${files[0]} ${err ? 'does not exist' : 'exists'}`);
@@ -18,7 +18,6 @@ export const createPDF = function (files, endPath) {
         files.forEach((file) => {
             pdfDoc.image(file, {
                 fit: [1000, 650],
-                align: 'left',
                 valign: 'center',
             });
             pdfDoc.addPage();

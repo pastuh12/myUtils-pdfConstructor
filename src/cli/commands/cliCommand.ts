@@ -2,13 +2,13 @@
  * based class for clas that add new functions to cli
  */
 class cliCommand {
-    commandNameWithArg;
-    alias;
-    descripton;
-    action;
-    option;
+    commandNameWithArg: string;
+    alias: string;
+    descripton: string;
+    action: string;
+    option: string;
 
-    constructor(args){
+    constructor(args: ){
         this.commandNameWithArg = args[0];
         this.alias = args[1];
         this.descripton = args[2];

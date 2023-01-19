@@ -3,7 +3,7 @@ import { Command } from 'commander';
  * Class for working with command line
  */
 class CLI {
-    cli = null;
+    cli: Command;
     /**
      *  Create a cli
      */
@@ -16,7 +16,7 @@ class CLI {
      * Add new function to cli
      * @param {cliCommand} cliCommand
      */
-    addCommand(cliCommand) {
+    addCommand(cliCommand: Command) {
         this.cli
         .command(cliCommand.commandNameWithArg)
         .option(cliCommand.option)
