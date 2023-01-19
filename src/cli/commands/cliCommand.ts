@@ -1,19 +1,21 @@
+import { cliConfig } from "./cliConfig";
+
 /**
  * based class for clas that add new functions to cli
  */
 class cliCommand {
     commandNameWithArg: string;
     alias: string;
-    descripton: string;
-    action: string;
+    description: string;
+    action: (arg0: string, arg1: any) => void;
     option: string;
 
-    constructor(args: ){
-        this.commandNameWithArg = args[0];
-        this.alias = args[1];
-        this.descripton = args[2];
-        this.action = args[3];
-        this.option = args[4];
+    constructor(config: cliConfig) {
+        this.commandNameWithArg = config.commandNameWithArg;
+        this.alias = config.alias;
+        this.description = config.description;
+        this.action = config.action;
+        this.option = config.option;
     }
 }
 

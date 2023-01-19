@@ -1,30 +1,76 @@
 import PDFDocument from 'pdfkit';
+import * as fsp from 'fs/promises';
 import * as fs from 'fs';
+import { LoggerInterface } from '../logger/loggerInterface';
 
-/**
- * function, that create pdf file eith images
- * @param {[string]} images
- * @param {[width, heigth]} size
- */
-export const createPDF = function (files: string[], endPath: string) {
-    try {
-        fs.access(files[0], (err) => {
-            console.log(`${files[0]} ${err ? 'does not exist' : 'exists'}`);
-        });
+export class pdfService {
+    logger: LoggerInterface;
 
-        const pdfDoc = new PDFDocument();
-        pdfDoc.pipe(fs.createWriteStream(endPath));
-
-        files.forEach((file) => {
-            pdfDoc.image(file, {
-                fit: [1000, 650],
-                valign: 'center',
-            });
-            pdfDoc.addPage();
-        });
-
-        pdfDoc.end();
-    } catch (error) {
-        console.log(error);
+    /**
+     * constructor
+     * @param  {LoggerInterface} logger 
+     */
+    constructor(logger: LoggerInterface) {
+        this.logger = logger;
     }
-};
+
+    /**
+     * function, that create pdf file eith images
+     * @param {[string]} images
+     * @param {[width, heigth]} size
+     */
+    createPDF = (files: string[], endPath: string): boolean => {
+        try {
+            const pdfDoc = new PDFDocument();
+            pdfDoc.pipe(fs.createWriteStream(endPath));
+
+            files.forEach((file) => {
+                fs.access(files[0], (err: Error | null) => {
+                    if (err) {
+                        this.logger.error(err, 'pdfService->createPDF: ')
+                    }
+                });
+                pdfDoc.image(file, {
+                    fit: [1000, 650],
+                    valign: 'center',
+                });
+                pdfDoc.addPage();
+            });
+
+            pdfDoc.end();
+            return true;
+        } catch (error) {
+
+            return false
+        }
+    };
+
+    getDataPaths = async (path: string) => {
+        // TODO: add verification file paths
+        try {
+            return fsp.readdir(path)
+                .then(
+                    (files) => {
+                        this.logger.debug('pdfService->getDataPaths: ' + files);
+                        files = files.filter(file => {
+                            if (file.indexOf('.jpg') != -1 || file.indexOf('.png') != -1) {
+                                return true;
+                            }
+                        })
+                        return files;
+                    }
+                )
+                .then((files) => {
+                    files = files.map((file) => {
+                        return path + file;
+                    });
+                    return files;
+                });
+        } catch (error: unknown) {
+            if (error instanceof Error)
+                this.logger.error(error, 'pdfService->getDataPaths');
+            return []
+        }
+    };
+
+}

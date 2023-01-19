@@ -1,5 +1,6 @@
 import * as bunyan from 'bunyan';
-import {logConfig} from './logConfig';
+import { stdout } from 'process';
+import { logConfig } from './logConfig';
 
 export class Logger {
     logger: bunyan;
@@ -10,26 +11,11 @@ export class Logger {
             streams: [
                 {
                     level: 'info',
-                    path: './logData/pdfConstructor-info.log',
-                },
-                {
-                    level: 'error',
-                    path: './logData/pdfConstructor-error.log',
-                    stream: process.stderr,
-                },
-                {
-                    level: 'warn',
-                    path: './logData/pdfConstructor-warn.log',
-                },
-                {
-                    level: 'fatal',
-                    path: './logData/pdfConstuctor-fatal.log',
-                    stream: process.stderr,
+                    stream: stdout
                 },
                 {
                     level: 'debug',
-                    path: './pdfConstuctor-debug.log',
-                    stream: process.stdout,
+                    path: './logData/pdfConstructor.log'
                 },
             ],
         });
@@ -42,16 +28,13 @@ export class Logger {
     warn(dataWarn: any) {
         this.logger.warn(dataWarn);
     }
-    error(dataError: any) {
-        this.logger.error(dataError);
+    error(error: Error, message: string) {
+        this.logger.error(error, message);
     }
-    fatal(dataFatal: any) {
-        this.logger.fatal(dataFatal);
+    fatal(error: Error, message: string) {
+        this.logger.fatal(error, message);
     }
     debug(dataDebug: any) {
-        this.logger.level('info');
-        console.log(this.logger.level());
         this.logger.debug(dataDebug);
-        console.log(this.logger.level());
     }
 }

@@ -1,4 +1,5 @@
 import { Command } from 'commander';
+import cliCommand from './commands/cliCommand';
 /**
  * Class for working with command line
  */
@@ -16,7 +17,7 @@ class CLI {
      * Add new function to cli
      * @param {cliCommand} cliCommand
      */
-    addCommand(cliCommand: Command) {
+    addCommand(cliCommand: cliCommand) {
         this.cli
         .command(cliCommand.commandNameWithArg)
         .option(cliCommand.option)
